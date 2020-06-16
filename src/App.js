@@ -23,7 +23,7 @@ function App() {
   const [resumen, guardarResumen] = useState({})
   const [cargando, guardarCargando] = useState(false)
 
-  const {datos, cotizacion} = resumen
+  const {datos, cotizacion=0} = resumen
 
   return (
     <Contenedor>

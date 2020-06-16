@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled'
 import {capitalize} from '../helper'
+import PropTypes from 'prop-types'
 
 //styled components
 const ContenedorResumen = styled.div`
@@ -28,5 +29,9 @@ const Resumen = ({datos}) => {
         </ContenedorResumen>
     );
 }
- 
+
+Resumen.propTypes = {
+    datos: PropTypes.object.isRequired
+}
+
 export default Resumen;
