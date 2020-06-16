@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 
 import {obtenerDiferenciaYear, calcularMarca, obtenerPlan} from '../helper'
 
+//styled components
 const Campo = styled.div`
     display: flex;
     margin-bottom: 1rem;

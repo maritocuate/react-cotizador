@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled'
 import {capitalize} from '../helper'
 
+//styled components
 const ContenedorResumen = styled.div`
     padding: 1rem;
     text-align: center;
