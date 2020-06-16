@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import styled from '@emotion/styled'
 
+import {obtenerDiferenciaYear, calcularMarca, obtenerPlan} from '../helper'
+
 const Campo = styled.div`
     display: flex;
     margin-bottom: 1rem;
@@ -35,8 +37,18 @@ const Boton = styled.button`
         cursor: pointer;
     }
 `;
+const Error = styled.div`
+    background-color: red;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+`;
 
-const Formulario = () => {
+const Formulario = ({guardarResumen}) => {
+
+    const [error, guardarError] = useState(false)
 
     const [datos, guardarDatos] = useState({
         brand:'',
@@ -52,8 +64,42 @@ const Formulario = () => {
         })
     }
 
+    const enviaDatos = e => {
+        e.preventDefault()
+        
+        if( brand.trim()==="" || year.trim()==="" || plan.trim()==="" ){
+            guardarError(true)
+        }else{
+            guardarError(false)
+
+            let resultado = 2000
+
+            //obtener diferencia de años
+            const diferencia = obtenerDiferenciaYear(year)
+
+            //por cada año hay que restar el 3%
+            resultado -= ( (diferencia*3) * resultado ) /100
+
+            //chevrolet 15%
+            //honda 5%
+            //mercedes 30%
+            resultado = calcularMarca(brand) * resultado
+
+            //aumento plan: basico 20%, completo 50%
+            const incremento = obtenerPlan(plan)
+            resultado = parseFloat( incremento * resultado ).toFixed(2)
+
+            //guardar resultado
+            guardarResumen({
+                cotizacion: resultado,
+                datos
+            })
+        }
+    }
+
     return (
-        <form>
+        <form onSubmit={enviaDatos}>
+            { error && <Error>Todos los campos son obligatorios</Error> }
             <Campo>
                 <Label>Marca</Label>
                 <Select name='brand' value={brand} onChange={obtenerInformacion}>
@@ -97,7 +143,7 @@ const Formulario = () => {
                 />Completo
             </Campo>
 
-            <Boton type='button'>Cotizar</Boton>
+            <Boton type='submit'>Cotizar</Boton>
         </form>
     );
 }
